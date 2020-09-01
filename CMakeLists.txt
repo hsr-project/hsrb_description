@@ -9,9 +9,7 @@ find_package(catkin REQUIRED COMPONENTS xacro rosbash)
 set(robots hsrb4s)
 
 # Generate robot URDFs
-# Gather dae files to be installed
 file(GLOB_RECURSE _component_xacros "${PROJECT_SOURCE_DIR}/urdf/*.xacro")
-set(_mesh_dirs "hsrb_meshes/meshes")
 foreach(_robot ${robots})
     set(_urdf ${PROJECT_SOURCE_DIR}/robots/${_robot}.urdf)
     set(_xacro ${_urdf}.xacro)
