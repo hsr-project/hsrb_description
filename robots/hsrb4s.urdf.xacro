@@ -46,6 +46,7 @@ POSSIBILITY OF SUCH DAMAGE.
     <xacro:include filename="$(find hsrb_description)/urdf/hand_v0/hand.urdf.xacro" />
 
     <xacro:arg name="personal_name" default=""/>
+    <xacro:arg name="loopback_hardware" default="false" />
 
     <!-- constant -->
     <xacro:property name="personal_name" value="$(arg personal_name)"/>
@@ -78,6 +79,9 @@ POSSIBILITY OF SUCH DAMAGE.
         <plugin name="${robot_name}_ros_control" filename="lib${robot_name}_gazebo_ros_control.so">
             <robotNamespace>${personal_name}/${robot_name}</robotNamespace>
             <legacyModeNS>false</legacyModeNS>
+            <xacro:if value="$(arg loopback_hardware)">
+                <robotSimType>loopback_robot_hardware/LoopbackRobotHWSim</robotSimType>
+            </xacro:if>
         </plugin>
 
         <plugin name="${robot_name}_p3d_ground_truth" filename="libgazebo_ros_p3d.so">
