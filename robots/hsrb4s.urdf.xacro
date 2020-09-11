@@ -79,7 +79,6 @@ POSSIBILITY OF SUCH DAMAGE.
         <plugin name="${robot_name}_ros_control" filename="lib${robot_name}_gazebo_ros_control.so">
             <robotNamespace>${personal_name}/${robot_name}</robotNamespace>
             <legacyModeNS>false</legacyModeNS>
-            <controlPeriod>0.01</controlPeriod>
             <xacro:if value="$(arg loopback_hardware)">
                 <robotSimType>loopback_robot_hardware/LoopbackRobotHWSim</robotSimType>
             </xacro:if>
