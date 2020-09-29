@@ -1,55 +1,47 @@
 Overview
 ++++++++
 
-本パッケージはHSR-Bのロボットモデルを管理する。
-Gazeboシミュレータ用設定も含む。
+This package manages the HSR-B robot model.
+Gazebo simulator configurations are also included.。
 
 
-推奨動作環境
-++++++++++++
-
-- Ubuntu Linux 14.04 64bit
-- ROS Indigo
-- Gazebo 2.2
-
-
-フォルダ構成
-++++++++++++
+Folder structure
++++++++++++++++++
 
 - **launch**
 
-     確認用launchファイル
+     Contains a launch file for performing confirmation (visualization) of a robot model.
 
 - **urdf**
 
-    共通マクロを含んだxacroファイルが直下にある。
+    The xacro files that include common macros are directly under this directory.
 
-    各パーツは `${部品名}_${バージョン}` という名前のフォルダに別れて配置されている。
+    Each part is separated into folders named ${PARTNAME}_${VERSION}.
 
-    ハードウェアの改修によって大きなモデル修正が起きた場合は、バージョンを1つ上げて新しくフォルダを設けること。
+    When a major change such as a model revision is caused by hardware repairs, the version is increased by one and a new folder is created.
 
-    バージョンは基本的にv0, v1, v2, ...と付けるものとする。
+    Basically, the version is attached to the part name and is of the form of v0, v1, v2, etc.
 
 - **robots**
 
-    各パーツのURDFを使って構成したロボット全体のURDF記述ファイルが置かれる。
+    The URDF description file of the entire robot configured using the URDF of each part is placed in this directory.
 
-    ハードウェア各部のバージョン違いによって、複数のロボットモデルが存在する。
+    There are multiple robot models depending on the version of various hardware parts.
 
-xacroファイル変数
-+++++++++++++++++
+xacro file variables
++++++++++++++++++++++
 
 - **personal_name**
 
-    複数台gazeboに表示させるときにつくネームスペース。
+    A namespace to set to allow one gazebo world to display several HSRs.
 
-　　　　launch起動にnamespaceに代入した名前がここに入る。デフォルトは""
+　　　　personal_name contains the value that is set as an argument in namespace when the launch file is started. The default value is "".
 
 - **robot_name**
 
-    ロボットのトピック名やサービス名などに使われるモデル名。デフォルトは"hsrb"
+    The model name used as the topic name or the service name of the robot. The default is "hsrb".
 
-　　ここに代入されるモデル名と実際に使っているモデル名が必ずしも同じにはならない。
+　　The model name assigned here and the model name actually used are not necessarily the same.
 
 LICENSE
 ++++++++++++
