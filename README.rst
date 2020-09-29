@@ -5,14 +5,6 @@ This package manages the HSR-B robot model.
 Gazebo simulator configurations are also included.。
 
 
-Recommended environment
-+++++++++++++++++++++++
-
-- Ubuntu Linux 14.04 64bit
-- ROS Indigo
-- Gazebo 2.2
-
-
 Folder structure
 +++++++++++++++++
 
@@ -26,7 +18,7 @@ Folder structure
 
     Each part is separated into folders named ${PARTNAME}_${VERSION}.
 
-    When a big model revision is caused by hardware repairs, the version is increased by one and a new folder is created.
+    When a major change such as a model revision is caused by hardware repairs, the version is increased by one and a new folder is created.
 
     Basically, the version is attached to the part name and is of the form of v0, v1, v2, etc.
 
