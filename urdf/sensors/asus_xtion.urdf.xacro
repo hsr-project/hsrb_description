@@ -34,7 +34,7 @@
             <parent link="${prefix}_${sensor_name}_link"/>
             <child link="${prefix}_${sensor_name}_gazebo_frame"/>
         </joint>
-        `
+
         <link name="${prefix}_${sensor_name}_gazebo_frame">
             <inertial>
                 <origin xyz="0 0 0"/>
