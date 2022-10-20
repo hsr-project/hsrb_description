@@ -31,45 +31,6 @@ POSSIBILITY OF SUCH DAMAGE.
 
   <xacro:arg name="implicit_damping" default="false" />
 
-  <xacro:macro name="hsrb_position_joint_transmission" params="joint reduction">
-     <transmission name="${joint}_transmission">
-       <type>transmission_interface/SimpleTransmission</type>
-       <joint name="${joint}">
-         <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
-       </joint>
-       <actuator name="${joint}_actuator">
-         <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
-         <mechanicalReduction>${reduction}</mechanicalReduction>
-       </actuator>
-     </transmission>
-  </xacro:macro>
-
-  <xacro:macro name="hsrb_effort_joint_transmission" params="joint reduction">
-     <transmission name="${joint}_transmission">
-       <type>transmission_interface/SimpleTransmission</type>
-       <joint name="${joint}">
-         <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
-       </joint>
-       <actuator name="${joint}_actuator">
-         <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
-         <mechanicalReduction>${reduction}</mechanicalReduction>
-       </actuator>
-     </transmission>
-  </xacro:macro>
-
-  <xacro:macro name="hsrb_velocity_joint_transmission" params="joint reduction">
-      <transmission name="${prefix}_transmission">
-          <type>transmission_interface/SimpleTransmission</type>
-          <joint name="${joint}">
-            <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
-          </joint>
-          <actuator name="${joint}_actuator">
-              <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
-              <mechanicalReduction>${reduction}</mechanicalReduction>
-          </actuator>
-      </transmission>
-  </xacro:macro>
-
   <xacro:macro name="gazebo_link" params="name gravity collide friction">
     <gazebo reference="${name}">
       <selfCollide>${collide}</selfCollide>
@@ -115,7 +76,7 @@ POSSIBILITY OF SUCH DAMAGE.
     </gazebo>
   </xacro:macro>
 
-  <xacro:macro name="gazebo_link_bumper" params="name personal_name robot_name gravity collide friction">
+  <xacro:macro name="gazebo_link_bumper" params="name robot_namespace gravity collide friction">
     <gazebo reference="${name}_link">
       <selfCollide>${collide}</selfCollide>
       <gravity>${gravity}</gravity>
@@ -127,10 +88,11 @@ POSSIBILITY OF SUCH DAMAGE.
         <contact>
           <collision>${name}_link_collision</collision>
         </contact>
-        <plugin name="hsrb_gazebo_ros_bumper_controller" filename="libhsrb_gazebo_ros_bumper.so">
-          <robotNamespace>${personal_name}/${robot_name}</robotNamespace>
-          <bumperTopicName>${name}_sensor</bumperTopicName>
-          <frameName>${name}_link</frameName>
+        <plugin name="${name}_bumper_controller" filename="libtmc_gazebo_ros_bumper.so">
+          <ros>
+            <namespace>${robot_namespace}</namespace>
+            <remapping>bumper_states:=${name}_sensor</remapping>
+          </ros>
         </plugin>
       </sensor>
     </gazebo>

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!--
-Copyright (c) 2014, Toyota Motor Corporation
+Copyright (c) 2022, Toyota Motor Corporation
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -28,9 +28,15 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 POSSIBILITY OF SUCH DAMAGE.
 -->
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
-    <xacro:macro name="hsrb_base_transmission" params="prefix">
-        <xacro:hsrb_velocity_joint_transmission joint="${prefix}_r_drive_wheel_joint" reduction="1"/>
-        <xacro:hsrb_velocity_joint_transmission joint="${prefix}_l_drive_wheel_joint" reduction="1"/>
-        <xacro:hsrb_position_joint_transmission joint="${prefix}_roll_joint" reduction="1"/>
+
+    <xacro:macro name="hsrb_head_gazebo" params="prefix">
+        <xacro:gazebo_link name="${prefix}_pan_link" gravity="true" collide="false" friction="0.9"/>
+        <xacro:gazebo_link name="${prefix}_tilt_link" gravity="true" collide="false" friction="0.9"/>
+        <xacro:gazebo_link name="${prefix}_l_stereo_camera_link" gravity="true" collide="false" friction="0.9"/>
+        <xacro:gazebo_link name="${prefix}_r_stereo_camera_link" gravity="true" collide="false" friction="0.9"/>
+        <xacro:gazebo_link name="${prefix}_rgbd_sensor_link" gravity="true" collide="false" friction="0.9"/>
+
+        <xacro:gazebo_joint name="${prefix}_pan_joint"/>
+        <xacro:gazebo_joint name="${prefix}_tilt_joint"/>
     </xacro:macro>
 </robot>

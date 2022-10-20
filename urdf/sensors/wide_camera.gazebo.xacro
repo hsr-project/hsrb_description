@@ -21,21 +21,21 @@
                         <mean>0.0</mean>
                         <stddev>0.007</stddev>
                     </noise>
+                    <distortion>
+                        <k1>0.0</k1>
+                        <k2>0.0</k2>
+                        <k3>0.0</k3>
+                        <p1>0.0</p1>
+                        <p2>0.0</p2>
+                    </distortion>
                 </camera>
-                <plugin name="camera_controller" filename="libhsrb_gazebo_ros_camera.so">
-                    <robotNamespace>${robot_namespace}</robotNamespace>
-                    <alwaysOn>0</alwaysOn>
-                    <updateRate>0.0</updateRate>
-                    <cameraName>${sensor_name}</cameraName>
-                    <imageTopicName>image_raw</imageTopicName>
-                    <cameraInfoTopicName>camera_info</cameraInfoTopicName>
-                    <frameName>${topic_frame_id}</frameName>
-                    <hackBaseline>0.07</hackBaseline>
-                    <distortionK1>0.0</distortionK1>
-                    <distortionK2>0.0</distortionK2>
-                    <distortionK3>0.0</distortionK3>
-                    <distortionT1>0.0</distortionT1>
-                    <distortionT2>0.0</distortionT2>
+                <plugin name="${sensor_name}_camera_controller" filename="libgazebo_ros_camera.so">
+                    <camera_name>${sensor_name}</camera_name>
+                    <frame_name>${topic_frame_id}</frame_name>
+                    <hack_baseline>0.07</hack_baseline>
+                    <ros>
+                        <namespace>${robot_namespace}</namespace>
+                    </ros>
                 </plugin>
             </sensor>
         </gazebo>

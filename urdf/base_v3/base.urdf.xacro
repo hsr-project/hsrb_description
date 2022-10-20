@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!--
-Copyright (c) 2014, Toyota Motor Corporation
+Copyright (c) 2022, Toyota Motor Corporation
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -34,13 +34,13 @@ POSSIBILITY OF SUCH DAMAGE.
 
     <!-- constant -->
     <xacro:property name="drive_wheel_width" value="0.03" />
-    <xacro:property name="drive_wheel_radius" value="0.040" />
+    <xacro:property name="drive_wheel_radius" value="0.0445" />
 
     <xacro:property name="drive_wheel_offset_x" value="0.110" />
     <xacro:property name="drive_wheel_offset_y" value="0.133" />
 
-    <xacro:property name="passive_wheel_radius" value="0.03" />
-    <xacro:property name="passive_wheel_offset_x" value="0.1495" />
+    <xacro:property name="passive_wheel_radius" value="0.0245" />
+    <xacro:property name="passive_wheel_offset_x" value="0.1665" />
     <xacro:property name="passive_wheel_offset_y" value="0.055" />
 
     <xacro:property name="drive_wheel_max_effort" value="11.067" />
@@ -162,12 +162,12 @@ POSSIBILITY OF SUCH DAMAGE.
             </inertial>
             <visual>
                 <geometry>
-                    <mesh filename="package://hsrb_meshes/meshes/base_v2/bumper.dae" />
+                    <mesh filename="package://hsrb_meshes/meshes/base_v3/bumper.dae" />
                 </geometry>
             </visual>
             <collision>
                 <geometry>
-                    <mesh filename="package://hsrb_meshes/meshes/base_v2/bumper.stl" />
+                    <mesh filename="package://hsrb_meshes/meshes/base_v3/bumper.stl" />
                 </geometry>
             </collision>
         </link>
@@ -185,30 +185,29 @@ POSSIBILITY OF SUCH DAMAGE.
 
         <link name="${prefix}_link">
             <inertial>
-                <mass value="50.0"/>
+                <mass value="50.00"/>  <!-- use dummy weight to stabilize gazebo move base (real value is 11.017971)-->
                 <origin xyz="-0.025978 -0.005498 0.17633"/>
                 <inertia ixx="0.3742" ixy="0.000434172172" ixz="0.03088"
-                         iyy="0.3436" iyz="0.01775" izz="0.1509"/>
+                    iyy="0.3436" iyz="0.01775" izz="0.1509"/>
             </inertial>
             <visual>
                 <geometry>
-                    <mesh filename="package://hsrb_meshes/meshes/base_v2/base_light.dae" />
+                    <mesh filename="package://hsrb_meshes/meshes/base_v3/base_light.dae" />
                 </geometry>
             </visual>
             <visual>
                 <geometry>
-                    <mesh filename="package://hsrb_meshes/meshes/base_v2/body_light.dae" />
+                    <mesh filename="package://hsrb_meshes/meshes/base_v3/body_light.dae" />
                 </geometry>
             </visual>
             <visual>
                 <geometry>
-                    <mesh filename="package://hsrb_meshes/meshes/base_v2/torso_base.dae" />
+                    <mesh filename="package://hsrb_meshes/meshes/base_v3/torso_base.dae" />
                 </geometry>
             </visual>
-
             <collision>
                 <geometry>
-                    <mesh filename="package://hsrb_meshes/meshes/base_v2/base.stl" />
+                    <mesh filename="package://hsrb_meshes/meshes/base_v3/base.stl" />
                 </geometry>
             </collision>
         </link>
@@ -265,12 +264,8 @@ POSSIBILITY OF SUCH DAMAGE.
             robot_namespace="${robot_namespace}"
             parent="${prefix}_link"
             min_angle="-2.1" max_angle="2.1">
-            <origin xyz="0.1675 0.0 0.1844" rpy="0.0 0.0 0.0" />
+            <origin xyz="0.167 0.0 0.1904" rpy="0.0 0.0 0.0" />
         </xacro:hokuyo_laser>
-
-        <xacro:imu_sensor prefix="${prefix}" robot_namespace="${robot_namespace}" parent="${prefix}_link" topic_name="data">
-            <origin xyz="0.0005 0.1296 0.181" rpy="0.0 0.0 0.0" />
-        </xacro:imu_sensor>
 
         <!-- bumper -->
         <xacro:hsrb_bumper prefix="${prefix}" suffix="f" parent="${prefix}_link">
@@ -281,7 +276,7 @@ POSSIBILITY OF SUCH DAMAGE.
 
         <xacro:hsrb_bumper prefix="${prefix}" suffix="b" parent="${prefix}_link">
             <origin
-                xyz="0.0 0.0013 0.0"
+                xyz="0.0 0.0 0.0"
                 rpy="0.0 0.0 ${pi}" />
         </xacro:hsrb_bumper>
 

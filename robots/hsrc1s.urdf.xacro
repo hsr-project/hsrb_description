@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <!--
-Copyright (c) 2014, Toyota Motor Corporation
+Copyright (c) 2022, Toyota Motor Corporation
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met
+modification, are permitted provided that the following conditions are met:
 
  * Redistributions of source code must retain the above copyright notice,
    this list of conditions and the following disclaimer.
@@ -27,18 +27,23 @@ CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 POSSIBILITY OF SUCH DAMAGE.
 -->
-<robot name="hsrb" xmlns:xacro="http://ros.org/wiki/xacro">
+<robot name="hsrc"
+       xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller"
+       xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface"
+       xmlns:sensor="http://playerstage.sourceforge.net/gazebo/xmlschema/#sensor"
+       xmlns:xacro="http://ros.org/wiki/xacro">
+
     <!-- common xacro -->
     <xacro:include filename="$(find hsrb_description)/urdf/common.xacro" />
     <xacro:include filename="$(find hsrb_description)/urdf/materials.urdf.xacro" />
 
     <!-- links and joints -->
-    <xacro:include filename="$(find hsrb_description)/urdf/base_v2/base.urdf.xacro" />
-    <xacro:include filename="$(find hsrb_description)/urdf/torso_v0/torso.urdf.xacro" />
-    <xacro:include filename="$(find hsrb_description)/urdf/head_v2/head.urdf.xacro" />
-    <xacro:include filename="$(find hsrb_description)/urdf/arm_v0/arm.urdf.xacro" />
-    <xacro:include filename="$(find hsrb_description)/urdf/wrist_v0/wrist.urdf.xacro" />
-    <xacro:include filename="$(find hsrb_description)/urdf/hand_v0/hand.urdf.xacro" />
+    <xacro:include filename="$(find hsrb_description)/urdf/base_v3/base.urdf.xacro" />
+    <xacro:include filename="$(find hsrb_description)/urdf/torso_v1/torso.urdf.xacro" />
+    <xacro:include filename="$(find hsrb_description)/urdf/head_v3/head.urdf.xacro" />
+    <xacro:include filename="$(find hsrb_description)/urdf/arm_v1/arm.urdf.xacro" />
+    <xacro:include filename="$(find hsrb_description)/urdf/wrist_v1/wrist.urdf.xacro" />
+    <xacro:include filename="$(find hsrb_description)/urdf/hand_v1/hand.urdf.xacro" />
 
     <xacro:arg name="gazebo_sim" default="False"/>
     <xacro:arg name="rviz_sim" default="False"/>
@@ -55,7 +60,7 @@ POSSIBILITY OF SUCH DAMAGE.
     <xacro:hsrb_base prefix="base" personal_name="${personal_name}" robot_namespace="${personal_name}" robot_name="${robot_name}"/>
 
     <xacro:hsrb_torso prefix="torso" parent="base_link" mimic_joint="arm_lift_joint">
-        <origin xyz="0.0 0.0 0.752" rpy="0.0 0.0 0.0"/>
+        <origin xyz="0.0 0.0 0.762" rpy="0.0 0.0 0.0"/>
     </xacro:hsrb_torso>
 
     <xacro:hsrb_head prefix="head" parent="torso_lift_link">
@@ -63,7 +68,7 @@ POSSIBILITY OF SUCH DAMAGE.
     </xacro:hsrb_head>
 
     <xacro:hsrb_arm prefix="arm" parent="base_link">
-        <origin xyz="0.0 0.0 0.340" rpy="0.0 0.0 0.0"/>
+        <origin xyz="0.0 0.0 0.350" rpy="0.0 0.0 0.0"/>
     </xacro:hsrb_arm>
 
     <xacro:hsrb_wrist prefix="wrist" parent="arm_roll_link" robot_namespace="${personal_name}">
@@ -71,18 +76,17 @@ POSSIBILITY OF SUCH DAMAGE.
     </xacro:hsrb_wrist>
 
     <xacro:hsrb_hand prefix="hand" parent="wrist_roll_link">
-        <origin xyz="0.012 0.0 0.1405" rpy="0.0 0.0 ${pi}"/>
+        <origin xyz="0.0 0.0 0.155" rpy="0.0 0.0 ${pi}"/>
     </xacro:hsrb_hand>
-
 
     <!-- Import ros2_control description -->
     <xacro:if value="${not $(arg gazebo_sim) and not $(arg rviz_sim)}">
-      <xacro:include filename="$(find hsrb_description)/urdf/ros2_control.hsrb4s.robot.xacro" />
+      <xacro:include filename="$(find hsrb_description)/urdf/ros2_control.hsrc1s.robot.xacro" />
       <xacro:ros2_contorl_robot/>
     </xacro:if>
 
     <xacro:if value="$(arg gazebo_sim)">
-      <xacro:include filename="$(find hsrb_description)/urdf/ros2_control.hsrb4s.gazebo.xacro" />
+      <xacro:include filename="$(find hsrb_description)/urdf/ros2_control.hsrc1s.gazebo.xacro" />
       <xacro:ros2_contorl_gazebo/>
     </xacro:if>
 

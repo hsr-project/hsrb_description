@@ -21,6 +21,6 @@
         <xacro:minebea_ft_sensor_gazebo
             robot_namespace="${robot_namespace}"
             joint_name="${prefix}_ft_sensor_frame_joint"
-            ros_topic="${robot_name}/${prefix}_wrench/raw" />
+            ros_topic="${prefix}_wrench/raw" />
     </xacro:macro>
 </robot>

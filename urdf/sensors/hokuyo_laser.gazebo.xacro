@@ -24,9 +24,13 @@
                     </range>
                 </ray>
 
-                <plugin name="hokuyo_laser" filename="libgazebo_ros_laser.so">
-                    <topicName>${robot_namespace}/${ros_topic}</topicName>
-                    <frameName>${frame_name}</frameName>
+                <plugin name="hokuyo_laser" filename="libgazebo_ros_ray_sensor.so">
+                    <output_type>sensor_msgs/LaserScan</output_type>
+                    <frame_name>${frame_name}</frame_name>
+                    <ros>
+                        <namespace>${robot_namespace}</namespace>
+                        <remapping>~/out:=${ros_topic}</remapping>
+                    </ros>
                 </plugin>
             </sensor>
         </gazebo>

@@ -1,0 +1,187 @@
+<?xml version="1.0"?>
+<!--
+Copyright (c) 2022, Toyota Motor Corporation
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+ * Redistributions of source code must retain the above copyright notice,
+   this list of conditions and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright
+   notice, this list of conditions and the following disclaimer in the
+   documentation and/or other materials provided with the distribution.
+ * Neither the name of Toyota Motor Corporation nor the names of its
+   contributors may be used to endorse or promote products derived from
+   this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+POSSIBILITY OF SUCH DAMAGE.
+-->
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:macro name="ros2_contorl_robot">
+    <ros2_control name="hsrb" type="system">
+      <hardware>
+        <plugin>hsrb_robot_hardware/HsrbHW</plugin>
+      </hardware>
+
+      <xacro:macro name="hsrb_joint" params="name min_angle max_angle motor_id reduction drive_mode velocity_limit gear_ratio torque_constant control_type:=ActiveJoint">
+        <joint name="${name}">
+          <command_interface name="position">
+            <param name="min">"${min_angle}"</param>
+            <param name="max">"${max_angle}"</param>
+          </command_interface>
+          <command_interface name="velocity">
+            <param name="min">>${-velocity_limit}</param>
+            <param name="max">>${velocity_limit}</param>
+          </command_interface>
+          <state_interface name="position"/>
+          <state_interface name="velocity"/>
+          <state_interface name="effort"/>
+          <param name="control_type">${control_type}</param>
+          <param name="motor_id">${motor_id}</param>
+          <param name="reduction">${reduction}</param>
+          <param name="drive_mode">${drive_mode}</param>
+          <param name="velocity_limit">${velocity_limit}</param>
+          <param name="gear_ratio">${gear_ratio}</param>
+          <param name="torque_constant">${torque_constant}</param>
+        </joint>
+      </xacro:macro>
+
+      <xacro:macro name="gripper_active_joint" params="name min_angle max_angle motor_id reduction drive_mode velocity_limit  gear_ratio torque_constant left_spring_joint right_spring_joint">
+        <joint name="${name}">
+          <command_interface name="position">
+            <param name="min">"${min_angle}"</param>
+            <param name="max">"${max_angle}"</param>
+          </command_interface>
+          <state_interface name="position"/>
+          <state_interface name="velocity"/>
+          <state_interface name="effort"/>
+          <param name="control_type">Gripper</param>
+          <param name="motor_id">${motor_id}</param>
+          <param name="reduction">${reduction}</param>
+          <param name="drive_mode">${drive_mode}</param>
+          <param name="velocity_limit">${velocity_limit}</param>
+          <param name="gear_ratio">${gear_ratio}</param>
+          <param name="torque_constant">${torque_constant}</param>
+          <param name="left_spring_joint">${left_spring_joint}</param>
+          <param name="right_spring_joint">${right_spring_joint}</param>
+        </joint>
+      </xacro:macro>
+
+      <xacro:hsrb_joint name="arm_lift_joint"
+                        min_angle="0.0"
+                        max_angle="0.69"
+                        motor_id="21"
+                        reduction="40.273862263"
+                        drive_mode="5"
+                        velocity_limit="6.28"
+                        gear_ratio="0.002407705"
+                        torque_constant="0.0174"/>
+      <xacro:hsrb_joint name="arm_flex_joint"
+                        min_angle="-2.62"
+                        max_angle="0.0"
+                        motor_id="22"
+                        reduction="1.0"
+                        drive_mode="5"
+                        velocity_limit="1.58"
+                        gear_ratio="0.00128576"
+                        torque_constant="0.0208"/>
+      <xacro:hsrb_joint name="arm_roll_joint"
+                        min_angle="-1.92"
+                        max_angle="3.67"
+                        motor_id="23"
+                        reduction="1.0"
+                        drive_mode="5"
+                        velocity_limit="2.0"
+                        gear_ratio="0.003333333"
+                        torque_constant="0.0184"/>
+      <xacro:hsrb_joint name="wrist_flex_joint"
+                        min_angle="-1.75"
+                        max_angle="1.22"
+                        motor_id="24"
+                        reduction="1.0"
+                        drive_mode="5"
+                        velocity_limit="2.0"
+                        gear_ratio="0.0035"
+                        torque_constant="0.0184"/>
+      <xacro:hsrb_joint name="wrist_roll_joint"
+                        min_angle="-1.92"
+                        max_angle="3.67"
+                        motor_id="25"
+                        reduction="1.0"
+                        drive_mode="7"
+                        velocity_limit="2.0"
+                        gear_ratio="0.0035"
+                        torque_constant="0.0184"/>
+      <xacro:hsrb_joint name="head_pan_joint"
+                        min_angle="-3.84"
+                        max_angle="1.75"
+                        motor_id="31"
+                        reduction="1.0"
+                        drive_mode="5"
+                        velocity_limit="2.0"
+                        gear_ratio="0.01"
+                        torque_constant="0.0184"/>
+      <xacro:hsrb_joint name="head_tilt_joint"
+                        min_angle="-1.57"
+                        max_angle="0.52"
+                        motor_id="32"
+                        reduction="-1.0"
+                        drive_mode="5"
+                        velocity_limit="2.0"
+                        gear_ratio="0.0028"
+                        torque_constant="0.0184"/>
+      <xacro:gripper_active_joint name="hand_motor_joint"
+                                  min_angle="-0.798"
+                                  max_angle="1.24"
+                                  motor_id="41"
+                                  reduction="1.0"
+                                  drive_mode="0"
+                                  velocity_limit="1.0"
+                                  gear_ratio="0.005090909"
+                                  torque_constant="0.0184"
+                                  left_spring_joint="hand_l_spring_proximal_joint"
+                                  right_spring_joint="hand_r_spring_proximal_joint"/>
+      <xacro:hsrb_joint name="base_l_drive_wheel_joint"
+                        min_angle="-999999"
+                        max_angle="999999"
+                        motor_id="11"
+                        reduction="1.0"
+                        drive_mode="3"
+                        velocity_limit="20.8"
+                        gear_ratio="0.006451613"
+                        torque_constant="0.0174"
+                        control_type="Wheel"/>
+      <xacro:hsrb_joint name="base_r_drive_wheel_joint"
+                        min_angle="-999999"
+                        max_angle="999999"
+                        motor_id="12"
+                        reduction="1.0"
+                        drive_mode="3"
+                        velocity_limit="20.8"
+                        gear_ratio="0.006451613"
+                        torque_constant="0.0174"
+                        control_type="Wheel"/>
+      <xacro:hsrb_joint name="base_roll_joint"
+                        min_angle="-999999"
+                        max_angle="999999"
+                        motor_id="13"
+                        reduction="-1.0"
+                        drive_mode="5"
+                        velocity_limit="2.5"
+                        gear_ratio="0.003333333"
+                        torque_constant="0.0368"/>
+    </ros2_control>
+  </xacro:macro>
+</robot>

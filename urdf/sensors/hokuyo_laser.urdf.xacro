@@ -33,7 +33,7 @@
         <xacro:hokuyo_laser_gazebo
             sensor_name="${prefix}_range_sensor"
             robot_namespace="${robot_namespace}"
-            ros_topic="${prefix}_scan"
+            ros_topic="scan"
             frame_name="${prefix}_range_sensor_link"
             min_angle="${min_angle}" max_angle="${max_angle}" />
     </xacro:macro>

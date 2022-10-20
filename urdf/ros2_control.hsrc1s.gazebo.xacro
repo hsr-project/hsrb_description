@@ -1,0 +1,106 @@
+<?xml version="1.0"?>
+<!--
+Copyright (c) 2022, Toyota Motor Corporation
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+ * Redistributions of source code must retain the above copyright notice,
+   this list of conditions and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright
+   notice, this list of conditions and the following disclaimer in the
+   documentation and/or other materials provided with the distribution.
+ * Neither the name of Toyota Motor Corporation nor the names of its
+   contributors may be used to endorse or promote products derived from
+   this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+POSSIBILITY OF SUCH DAMAGE.
+-->
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:macro name="ros2_contorl_gazebo">
+    <gazebo>
+      <plugin name="gazebo_ros2_control" filename="libgazebo_ros2_control.so">
+        <robot_sim_type>gazebo_ros2_control/GazeboSystem</robot_sim_type>
+        <parameters>$(find hsrb_gazebo_bringup)/config/gazebo_ros2_control.yaml</parameters>
+        <robot_param_node>whole_body/robot_state_publisher</robot_param_node>
+        <ros>
+        </ros>
+      </plugin>
+      <plugin name="hrh_gripper_plugin" filename="libtmc_gazebo_ros_hrh_gripper.so">
+        <sensitiveness>0.05</sensitiveness>
+        <update_rate>1000.0</update_rate>
+        <max_torque>20.0</max_torque>
+        <error_tolerance>0.0872</error_tolerance>
+        <stall_timeout>2.0</stall_timeout>
+        <robot_namespace>${personal_name}/${robot_name}</robot_namespace>
+        <parameters>
+          <hand_l_proximal_joint p="50.0" d="20.0"/>
+          <hand_l_spring_proximal_joint p="50.0" d="20.0"/>
+          <hand_l_mimic_distal_joint p="20.0" d="8.0"/>
+          <hand_l_distal_joint p="1.0" d="0.0"/>
+          <hand_r_proximal_joint p="50.0" d="20.0"/>
+          <hand_r_spring_proximal_joint p="50.0" d="20.0"/>
+          <hand_r_mimic_distal_joint p="20.0" d="8.0"/>
+          <hand_r_distal_joint p="20.0" d="8.0"/>
+        </parameters>
+      </plugin>
+    </gazebo>
+    <ros2_control name="GazeboSystem" type="system">
+      <hardware>
+         <plugin>gazebo_ros2_control/GazeboSystem</plugin>
+      </hardware>
+      <xacro:macro name="gazebo_velocity_joint" params="name">
+        <joint name="${name}">
+          <command_interface name="velocity" />
+          <state_interface name="position" />
+          <state_interface name="velocity" />
+          <state_interface name="effort" />
+        </joint>
+      </xacro:macro>
+      <xacro:macro name="gazebo_position_joint" params="name p_gain i_gain d_gain">
+        <joint name="${name}">
+          <command_interface name="position" />
+          <state_interface name="position" />
+          <state_interface name="velocity" />
+          <state_interface name="effort" />
+          <param name="p_gain">${p_gain}</param>
+          <param name="i_gain">${i_gain}</param>
+          <param name="d_gain">${d_gain}</param>
+          <param name="i_max">200.0</param>
+        </joint>
+      </xacro:macro>
+      <xacro:macro name="gazebo_read_only_joint" params="name">
+        <joint name="${name}">
+          <state_interface name="position" />
+          <state_interface name="velocity" />
+          <state_interface name="effort" />
+        </joint>
+      </xacro:macro>
+      <xacro:gazebo_position_joint name="head_tilt_joint" p_gain="1200.0" i_gain="0.0" d_gain="10.0"/>
+      <xacro:gazebo_position_joint name="head_pan_joint" p_gain="1200.0" i_gain="0.0" d_gain="10.0"/>
+      <xacro:gazebo_position_joint name="arm_lift_joint" p_gain="900.0" i_gain="200.0" d_gain="100.0"/>
+      <xacro:gazebo_position_joint name="arm_flex_joint" p_gain="2000.0" i_gain="10.0" d_gain="20.0"/>
+      <xacro:gazebo_position_joint name="arm_roll_joint" p_gain="1000.0" i_gain="10.0" d_gain="1.0"/>
+      <xacro:gazebo_position_joint name="wrist_flex_joint" p_gain="900.0" i_gain="0.0" d_gain="0.0"/>
+      <xacro:gazebo_position_joint name="wrist_roll_joint" p_gain="900.0" i_gain="0.0" d_gain="0.0"/>
+      <xacro:gazebo_position_joint name="base_roll_joint" p_gain="900.0" i_gain="200.0" d_gain="100.0"/>
+      <xacro:gazebo_velocity_joint name="base_r_drive_wheel_joint" />
+      <xacro:gazebo_velocity_joint name="base_l_drive_wheel_joint" />
+      <xacro:gazebo_read_only_joint name="hand_motor_joint" />
+      <xacro:gazebo_read_only_joint name="hand_l_spring_proximal_joint" />
+      <xacro:gazebo_read_only_joint name="hand_r_spring_proximal_joint" />
+    </ros2_control>
+  </xacro:macro>
+</robot>

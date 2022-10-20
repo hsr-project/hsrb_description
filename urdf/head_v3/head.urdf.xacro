@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!--
-Copyright (c) 2014, Toyota Motor Corporation
+Copyright (c) 2022, Toyota Motor Corporation
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -29,7 +29,7 @@ POSSIBILITY OF SUCH DAMAGE.
 -->
 <robot name="head" xmlns:xacro="http://ros.org/wiki/xacro">
 
-    <xacro:include filename="$(find hsrb_description)/urdf/head_v2/head.gazebo.xacro"/>
+    <xacro:include filename="$(find hsrb_description)/urdf/head_v3/head.gazebo.xacro"/>
 
     <xacro:include filename="$(find hsrb_description)/urdf/sensors/asus_xtion.urdf.xacro"/>
     <xacro:include filename="$(find hsrb_description)/urdf/sensors/pointgrey_chameleon.urdf.xacro"/>
@@ -55,13 +55,12 @@ POSSIBILITY OF SUCH DAMAGE.
             </inertial>
             <visual>
                 <geometry>
-                    <mesh filename="package://hsrb_meshes/meshes/head_v1/head_pan.dae" />
+                    <mesh filename="package://hsrb_meshes/meshes/head_v3/head_pan.dae" />
                 </geometry>
             </visual>
-
             <collision>
                 <geometry>
-                    <mesh filename="package://hsrb_meshes/meshes/head_v1/head_pan.stl" />
+                    <mesh filename="package://hsrb_meshes/meshes/head_v3/head_pan.stl" />
                 </geometry>
             </collision>
         </link>
@@ -84,46 +83,27 @@ POSSIBILITY OF SUCH DAMAGE.
             </inertial>
             <visual>
                 <geometry>
-                    <mesh filename="package://hsrb_meshes/meshes/head_v1/head_upper.dae" />
-                </geometry>
-            </visual>
-            <visual>
-                <geometry>
-                    <mesh filename="package://hsrb_meshes/meshes/head_v1/head_tilt.dae" />
-                </geometry>
-            </visual>
-            <visual>
-                <geometry>
-                    <mesh filename="package://hsrb_meshes/meshes/head_v1/tablet_base.dae" />
+                    <mesh filename="package://hsrb_meshes/meshes/head_v3/head.dae" />
                 </geometry>
             </visual>
             <collision>
                 <geometry>
-                    <mesh filename="package://hsrb_meshes/meshes/head_v1/head.stl" />
-                </geometry>
-            </collision>
-            <collision>
-                <geometry>
-                    <mesh filename="package://hsrb_meshes/meshes/head_v1/tablet.stl" />
+                    <mesh filename="package://hsrb_meshes/meshes/head_v3/head.stl" />
                 </geometry>
             </collision>
         </link>
 
         <!-- cameras -->
         <xacro:pointgrey_chameleon prefix="${prefix}_l_stereo" parent="${prefix}_tilt_link" robot_namespace="${personal_name}" baseline="0.00">
-            <origin xyz="0.02 0.07 0.061" rpy="${-pi/2.0} 0.0 ${-pi/2.0}"/>
+            <origin xyz="0.0262 0.07 0.08" rpy="${-pi/2.0} 0.0 ${-pi/2.0}"/>
         </xacro:pointgrey_chameleon>
 
         <xacro:pointgrey_chameleon prefix="${prefix}_r_stereo" parent="${prefix}_tilt_link" robot_namespace="${personal_name}" baseline="0.14">
-            <origin xyz="0.02 -0.07 0.061" rpy="${-pi/2.0} 0.0 ${-pi/2.0}"/>
+            <origin xyz="0.0262 -0.07 0.08" rpy="${-pi/2.0} 0.0 ${-pi/2.0}"/>
         </xacro:pointgrey_chameleon>
 
-        <xacro:wide_camera prefix="${prefix}_center" parent="${prefix}_tilt_link" robot_namespace="${personal_name}" rpy="${pi/2.0} ${-pi/2.0} 0.0" >
-            <origin xyz="0.0195 0.0 0.061" rpy="${-pi/2.0} 0.0 ${-pi/2.0}"/>
-        </xacro:wide_camera>
-
         <xacro:asus_xtion prefix="${prefix}" parent="${prefix}_tilt_link" robot_namespace="${personal_name}" sensor_name="rgbd_sensor">
-            <origin xyz="-0.079796 0.022 0.215172" rpy="${-pi/2.0} 0.0 ${-pi/2.0}"/>
+            <origin xyz="-0.0786 0.022 0.248" rpy="${-pi/2.0} 0.0 ${-pi/2.0}"/>
         </xacro:asus_xtion>
 
         <xacro:hsrb_head_gazebo prefix="${prefix}"/>

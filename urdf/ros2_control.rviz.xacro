@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!--
-Copyright (c) 2014, Toyota Motor Corporation
+Copyright (c) 2022, Toyota Motor Corporation
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -27,19 +27,37 @@ CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 POSSIBILITY OF SUCH DAMAGE.
 -->
-<launch>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-    <!-- args -->
-    <arg name="gui" default="true" />
-    <arg name="robot" default="hsrb4s" />
+  <xacro:macro name="ros2_contorl_rviz">
+    <ros2_control name="GenericSystem" type="system">
+      <hardware>
+        <plugin>fake_components/GenericSystem</plugin>
+        <param name="fake_sensor_commands">False</param>
+        <param name="state_following_offset">0.0</param>
+      </hardware>
 
-    <!-- load robot -->
-    <param name="robot_description" command="$(find xacro)/xacro '$(find hsrb_description)/robots/$(arg robot).urdf.xacro'" />
-    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
-    <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" />
+      <xacro:macro name="rviz_joint" params="name">
+        <joint name="${name}">
+          <command_interface name="velocity"/>
+          <command_interface name="position"/>
+          <state_interface name="position"/>
+          <state_interface name="velocity"/>
+          <state_interface name="effort"/>
+        </joint>
+      </xacro:macro>
 
-    <!-- load displays -->
-    <param name="use_gui" value="$(arg gui)"/>
-    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find hsrb_description)/launch/hsrb_display.rviz"/>
-
-</launch>
+      <xacro:rviz_joint name="arm_lift_joint"/>
+      <xacro:rviz_joint name="arm_flex_joint"/>
+      <xacro:rviz_joint name="arm_roll_joint"/>
+      <xacro:rviz_joint name="wrist_flex_joint"/>
+      <xacro:rviz_joint name="wrist_roll_joint"/>
+      <xacro:rviz_joint name="head_pan_joint"/>
+      <xacro:rviz_joint name="head_tilt_joint"/>
+      <xacro:rviz_joint name="hand_motor_joint"/>
+      <xacro:rviz_joint name="base_l_drive_wheel_joint"/>
+      <xacro:rviz_joint name="base_r_drive_wheel_joint"/>
+      <xacro:rviz_joint name="base_roll_joint"/>
+    </ros2_control>
+  </xacro:macro>
+</robot>

@@ -4,16 +4,14 @@
     <xacro:macro name="imu_gazebo" params="sensor_name frame_name topic_name robot_namespace">
         <gazebo reference="${frame_name}">
             <sensor type="imu" name="${sensor_name}">
-                <update_rate>10.0</update_rate>
-	        <plugin name="${sensor_name}_plugin" filename="libgazebo_ros_imu_sensor.so">
-		    <updateRateHZ>50.0</updateRateHZ>
-		    <bodyName>base_link</bodyName>
-                    <topicName>${robot_namespace}/${sensor_name}/data</topicName>
-                    <frameName>${personal_name}/${frame_name}</frameName>
-		    <gaussianNoise>0.0</gaussianNoise>
-		    <xyzOffset>0.0 0.0 0.0</xyzOffset>
-		    <rpyOffset>0.0 -0.0 0.0</rpyOffset>
-		</plugin>
+                <update_rate>100.0</update_rate>
+                <plugin name="${sensor_name}_plugin" filename="libgazebo_ros_imu_sensor.so">
+                    <frame_name>${personal_name}/${frame_name}</frame_name>
+                    <ros>
+                        <namespace>${robot_namespace}</namespace>
+                        <remapping>~/out:=${sensor_name}/${topic_name}</remapping>
+                    </ros>
+                </plugin>
                 <imu>
                     <noise>
                         <type>gaussian</type>

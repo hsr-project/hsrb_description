@@ -28,7 +28,7 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 POSSIBILITY OF SUCH DAMAGE.
 -->
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
-    <xacro:macro name="hsrb_base_gazebo" params="personal_name prefix robot_name">
+    <xacro:macro name="hsrb_base_gazebo" params="prefix robot_namespace">
         <xacro:gazebo_link name="${prefix}_link" gravity="true" collide="false" friction="0.9"/>
         <xacro:gazebo_link name="${prefix}_roll_link" gravity="true" collide="false" friction="0.9"/>
         <xacro:gazebo_link_rubber name="${prefix}_r_drive_wheel_link" />
@@ -37,7 +37,7 @@ POSSIBILITY OF SUCH DAMAGE.
         <xacro:gazebo_link_caster name="${prefix}_l_passive_wheel_z_link" />
         <xacro:gazebo_link name="${prefix}_range_sensor_link" gravity="true" collide="false" friction="0.9"/>
         <xacro:gazebo_link name="${prefix}_imu_frame" gravity="true" collide="false" friction="0.9"/>
-        <xacro:gazebo_link_bumper name="${prefix}_f_bumper" personal_name="${personal_name}" robot_name="${robot_name}" gravity="true" collide="false" friction="0.9"/>
-        <xacro:gazebo_link_bumper name="${prefix}_b_bumper" personal_name="${personal_name}" robot_name="${robot_name}" gravity="true" collide="false" friction="0.9"/>
+        <xacro:gazebo_link_bumper name="${prefix}_f_bumper" robot_namespace="${robot_namespace}" gravity="true" collide="false" friction="0.9"/>
+        <xacro:gazebo_link_bumper name="${prefix}_b_bumper" robot_namespace="${robot_namespace}" gravity="true" collide="false" friction="0.9"/>
     </xacro:macro>
 </robot>
