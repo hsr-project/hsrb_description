@@ -16,6 +16,12 @@
                     <mesh filename="package://hsrb_meshes/meshes/sensors/head_camera.dae" />
                 </geometry>
             </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0.0 0.0 0.0"/>
+                <geometry>
+                    <mesh filename="package://hsrb_meshes/meshes/sensors/head_camera.dae" />
+                </geometry>
+            </collision>
             <inertial>
                 <origin xyz="0 0 0"/>
                 <mass value="0.01"/>
